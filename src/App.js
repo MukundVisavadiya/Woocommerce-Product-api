@@ -11,7 +11,7 @@ function App() {
     <div className="App">
       <Navbar></Navbar>
       <Routes>
-        <Route exact path="/shop" element={<Product ></Product>} />
+        <Route exact path="/shop" element={<Product per_page={6} ></Product>} />
         <Route exact path="/shop/:slug" element={<ProductSingle></ProductSingle>} />
       </Routes>
     </div>

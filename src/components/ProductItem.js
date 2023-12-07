@@ -9,7 +9,6 @@ function ProductItem(props) {
                 <Link
                     rel="noreferrer"
                     to={url}
-                    target="_blank"
                     style={{ textDecoration: "none" }}
                 >
                     <img
@@ -26,7 +25,6 @@ function ProductItem(props) {
                     <Link
                         rel="noreferrer"
                         to={url}
-                        target="_blank"
                         style={{ textDecoration: "none" }}
                     >
                         <h5 className="card-title" style={{ color: "Black", textAlign: "center" }}>
@@ -36,18 +34,15 @@ function ProductItem(props) {
                             </span>
                         </h5>
                     </Link>
-                    <p className="card-text" style={{ textAlign: "center" }}>
-
-                        <p style={{ textDecoration: "line-through", display: "inline" }} > ₹ {reprice}</p>
-                        <p style={{ display: "inline" }}> ₹ {saleprice}</p>
-
-                    </p>
+                    <div style={{ textAlign: "center", padding: "10px 0px" }}>
+                        <p className="card-text" style={{ textDecoration: "line-through", display: "inline" }} > ₹ {reprice}</p>
+                        <p className="card-text" style={{ display: "inline" }}> ₹ {saleprice}</p>
+                    </div>
                     <div style={{ textAlign: "center" }}>
                         <Link
                             rel="noreferrer"
                             to={url}
                             className="button butt                                                                                                                                                                                              "
-                            target="_blank"
                         >
                             Add to Cart
                         </Link>
@@ -56,6 +51,7 @@ function ProductItem(props) {
                 </div>
             </div>
         </div>
+
     );
 }
 

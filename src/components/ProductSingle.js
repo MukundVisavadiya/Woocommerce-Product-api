@@ -5,14 +5,12 @@ import { useSelector, useDispatch } from 'react-redux'
 import { fetchSingleProduct } from '../state/action/Product'
 import Spinner from './Spinner';
 import Singleitem from './Singleitem';
-import { convert } from 'html-to-text';
 
-function ProductSingle(props) {
+function ProductSingle() {
     const { slug } = useParams();
 
-    const apiData = useSelector((state) => state.product);
+    const apiData = useSelector((state) => state.singleProduct);
     const dispatch = useDispatch();
-    console.log("single", apiData);
 
     useEffect(() => {
         dispatch(
@@ -20,35 +18,26 @@ function ProductSingle(props) {
         );
     }, []);
 
+    const element = apiData.singleProducts[0];
+
     return (
         <>
-            {apiData.loading && <Spinner />}
-            {apiData.products.map((element) => {
-
-                const options = {
-                    wordwrap: 130,
-                };
-                const html = element.description;
-                const text = convert(html, options);
-                return (
-                    <div className='container py-5'>
-                        <div key={element && element.id}>
-                            <Singleitem
-                                imageLink={element && element.images[0].src}
-                                Prodtitle={element && element.name}
-                                reprice={element && element.regular_price}
-                                saleprice={element && element.sale_price}
-                                description={element && text}
-                                category={element && element.categories[0].name}
-                                source={element && (element.stock_status === 'instock') ? "SALE" : "OUT OF STOCK"}
-                                imageLink2={element && element.images[1].src}
-                                imageLink3={element && element.images[2].src}
-                            />
-                        </div>
-                    </div>
-                );
-            })}
-
+            {apiData.SingleProLoading && <Spinner />}
+            <div className='container py-5'>
+                <div key={element && element.id}>
+                    <Singleitem
+                        imageLink={element && element.images.length > 0 ? element.images[0].src : ''}
+                        Prodtitle={element && element.name}
+                        reprice={element && element.regular_price}
+                        saleprice={element && element.sale_price}
+                        description={element && element.description.replace(/<[^>]+>/g, '')}
+                        category={element && element.categories[0].name}
+                        source={element && (element.stock_status === 'instock') ? "SALE" : "OUT OF STOCK"}
+                        imageLink2={element && element.images.length > 1 ? element.images[1].src : ''}
+                        imageLink3={element && element.images.length > 2 ? element.images[2].src : ''}
+                    />
+                </div>
+            </div>
         </>
 
     )

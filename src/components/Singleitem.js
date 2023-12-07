@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Product from './Product'
 import { Link } from 'react-router-dom';
 
 function Singleitem(props) {
@@ -67,7 +66,6 @@ function Singleitem(props) {
                                 rel="noreferrer"
                                 to='/'
                                 className="button butt"
-                                target="_blank"
                                 style={{ marginLeft: "28px" }}
                             >
                                 Add to Cart
