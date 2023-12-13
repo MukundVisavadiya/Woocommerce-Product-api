@@ -46,13 +46,13 @@ function ProductItem(props) {
                             <p className="card-text" style={{ textDecoration: "line-through", display: "inline" }} > ₹ {reprice}</p>
                             <p className="card-text" style={{ display: "inline" }}> ₹ {saleprice}</p>
                         </div>
-                        <div style={{ textAlign: "center" }}>
+                        <div style={{ textAlign: "center" }} key="productId">
                             <button
                                 className="button butt" onClick={() => {
                                     dispatch(
                                         archiveAddToCart(productId, 1)
                                     );
-                                }}>
+                                }} disabled={source === 'OUT OF STOCK'}>
                                 Add to Cart
                             </button>
                             <div>

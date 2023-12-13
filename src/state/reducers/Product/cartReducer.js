@@ -11,7 +11,7 @@ const initialState = {
 };
 
 const cartReducer = (state = initialState, action) => {
-    console.log(action);
+
     switch (action.type) {
         case FETCH_CART_DETAIL_REQUEST:
             return {

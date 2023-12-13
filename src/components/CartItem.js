@@ -3,15 +3,33 @@ import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { removeCartItem } from '../state/action/Product'
 import { updateCartQuantity } from '../state/action/Product'
+import { fetchCart } from '../state/action/Product';
+import { useEffect } from 'react'
+import { RESET_UPDATE_QUANTITY, RESET_REMOVE_CART_ITEM } from '../state/action/Product/action.type'
 
 function CartItem(props) {
     let { cardImage, ProductTitle, singleUrl, saleprice, reprice, savePrice, cartDescription, PriceTotal, ItemCount, itemKey } = props
-    console.log(itemKey);
     const dispatch = useDispatch();
     const removeItem = useSelector((state) => state.removeItem);
     const updateQuantity = useSelector((state) => state.updateQuantity);
-    console.log('update item api:', updateQuantity)
-    console.log('remove item api:', removeItem);
+
+    useEffect(() => {
+        if (updateQuantity && updateQuantity.updateSuccess) {
+            dispatch(
+                fetchCart()
+            )
+            dispatch({ type: RESET_UPDATE_QUANTITY });
+        }
+    }, [updateQuantity]);
+
+    useEffect(() => {
+        if (removeItem && removeItem.removeItemSuccess) {
+            dispatch(
+                fetchCart()
+            )
+            dispatch({ type: RESET_REMOVE_CART_ITEM });
+        }
+    })
 
     return (
         <>

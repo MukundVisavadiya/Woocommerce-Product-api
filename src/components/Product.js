@@ -11,9 +11,7 @@ function Product(props) {
     const [Page, setPage] = useState(1);
     // all product api call
     const apiData = useSelector((state) => state.product);
-    console.log("apidata", apiData);
     const dispatch = useDispatch();
-    console.log("map data", apiData.products);
 
     useEffect(() => {
         dispatch(

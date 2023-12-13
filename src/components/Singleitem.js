@@ -37,7 +37,7 @@ function Singleitem(props) {
                             }
                         />
                         <span className="badge rounded-pill bg-danger" style={{ display: "flex", justifyContent: "flex-end", position: "absolute", left: 330, top: 120 }}>{source}</span>
-                        <div className='row' style={{ padding: "18px 6px 0px 0px" }}>
+                        <div className='row' style={{ padding: "18px 6px 0px 0px" }} key={productId}>
                             <div className='col-12 col-md-3'>
                                 <img
                                     style={{ width: "100%", height: "100%", }}

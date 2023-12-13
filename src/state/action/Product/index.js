@@ -91,7 +91,6 @@ export const fetchSingleProduct = (slug) => {
         try {
             let data = await fetch(url);
             let parseData = await data.json();
-            console.log('Header DATA', parseData)
             dispatch({
                 type: FETCH_SINGLE_PRODUCTS_SUCCESS,
                 payload: parseData,
