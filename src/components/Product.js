@@ -11,7 +11,9 @@ function Product(props) {
     const [Page, setPage] = useState(1);
     // all product api call
     const apiData = useSelector((state) => state.product);
+    console.log("apidata", apiData);
     const dispatch = useDispatch();
+    console.log("map data", apiData.products);
 
     useEffect(() => {
         dispatch(
@@ -56,17 +58,18 @@ function Product(props) {
             <div className="container">
                 <div className="row py-4">
                     {apiData.loading && <Spinner />}
-                    {apiData.products.map((element) => {
+                    {!apiData.loading && apiData.products.map((element) => {
                         return (
 
                             <div className="col-md-4" key={element && element.id}>
                                 <ProductItem
                                     title={element && element.name}
-                                    imgUrl={element && element.images[0].src}
+                                    imgUrl={element && element.images.length > 0 && element.images[0].src}
                                     url={element && `/shop/${element.slug}`}
                                     reprice={element && element.regular_price}
                                     saleprice={element && element.sale_price}
                                     source={element && (element.stock_status === 'instock') ? "SALE" : "OUT OF STOCK"}
+                                    productId={element.id}
                                 />
                             </div>
 

@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux'
+import { archiveAddToCart } from '../state/action/Product';
+import success from './success.svg'
 
 function Singleitem(props) {
-    let { imageLink, Prodtitle, reprice, saleprice, description, category, source, imageLink2, imageLink3 } = props
+    let { imageLink, Prodtitle, reprice, saleprice, description, category, source, imageLink2, imageLink3, productId } = props;
 
     const [counter, setCounter] = useState(0);
 
@@ -15,6 +18,10 @@ function Singleitem(props) {
             setCounter(counter - 1);
         }
     };
+
+    const dispatch = useDispatch();
+    const addtoitem = useSelector((state) => state.addItem);
+
 
     return (
         <>
@@ -61,16 +68,43 @@ function Singleitem(props) {
                         <div style={{ padding: "20px 10px" }}>
                             <button className='increment-decrement-button' onClick={increment}>+</button>
                             <span className="counter">{counter}</span>
-                            <button className='increment-decrement-button' onClick={decrement}>-</button>
-                            <Link
-                                rel="noreferrer"
-                                to='/'
+                            <button className='increment-decrement-button' disabled={counter === 0} onClick={decrement}>-</button>
+                            <button
                                 className="button butt"
                                 style={{ marginLeft: "28px" }}
+                                onClick={() => {
+                                    dispatch(
+                                        archiveAddToCart(productId, counter)
+                                    );
+                                }}
                             >
                                 Add to Cart
-                            </Link>
+                            </button>
                         </div>
+
+                        {
+                            addtoitem.cartPageLink && addtoitem.AddToCartItem.items.map((element) => {
+                                return (
+
+                                    element && (element.id === productId) ?
+                                        (
+                                            <>
+                                                <div style={{ paddingLeft: '10px' }}>
+                                                    <img style={{ width: '18px' }} src={success} alt='success' />
+
+                                                    <b style={{ paddingLeft: '10px' }}>{Prodtitle}</b> has been added to your cart.
+                                                    <div>
+                                                        <Link className='view' style={{ color: 'black', textDecoration: 'none', paddingLeft: '32px' }} to="/cart">
+                                                            View Cart
+                                                        </Link>
+                                                    </div>
+                                                </div>
+
+                                            </>
+                                        ) : ' '
+                                )
+                            })
+                        }
                         <h4 style={{ padding: "20px 10px" }} >Category: {category}</h4>
                     </div>
                 </div>
