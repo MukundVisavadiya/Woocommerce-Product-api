@@ -77,6 +77,7 @@ function Singleitem(props) {
                                         archiveAddToCart(productId, counter)
                                     );
                                 }}
+                                disabled={source === 'OUT OF STOCK'}
                             >
                                 Add to Cart
                             </button>

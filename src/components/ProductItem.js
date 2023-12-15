@@ -11,7 +11,6 @@ function ProductItem(props) {
 
     return (
         <>
-
             <div className="my-3">
                 <div className="card">
                     <Link
@@ -65,9 +64,6 @@ function ProductItem(props) {
                                 })
                                 }
                             </div>
-
-
-
                         </div>
 
                     </div>
