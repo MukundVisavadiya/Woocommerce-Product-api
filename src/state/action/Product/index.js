@@ -27,7 +27,10 @@ import {
     POST_PLACE_CHECKOUT_FAILURE,
     GET_ORDER_DATA_REQUEST,
     GET_ORDER_DATA_SUCCESS,
-    GET_ORDER_DATA_FAILURE
+    GET_ORDER_DATA_FAILURE,
+    POST_APPLY_COUPON_REQUEST,
+    POST_APPLY_COUPON_SUCCESS,
+    POST_APPLY_COUPON_FAILURE
 } from "./action.type";
 
 export const fetchProduct = (page, per_page) => {
@@ -45,8 +48,7 @@ export const fetchProduct = (page, per_page) => {
 
         try {
             let data = await fetch(url, {
-                method: 'get',
-                headers: {}
+                method: 'GET'
             });
             let headers = data.headers;
             let totalProducts = headers.get('X-Wp-Total');
@@ -167,8 +169,6 @@ export const archiveAddToCart = (productId, counter) => {
         try {
             let data = await fetch(url, {
                 method: "POST",
-                headers: {
-                }
             });
             let parseData = await data.json();
 
@@ -204,8 +204,6 @@ export const removeCartItem = (itemKey) => {
         try {
             let data = await fetch(url, {
                 method: "POST",
-                headers: {
-                }
             });
             let parseData = await data.json();
 
@@ -241,8 +239,6 @@ export const updateCartQuantity = (itemKey, quantity) => {
         try {
             let data = await fetch(url, {
                 method: "POST",
-                headers: {
-                }
             });
             let parseData = await data.json();
 
@@ -278,8 +274,6 @@ export const getCheckout = () => {
         try {
             let data = await fetch(url, {
                 method: "GET",
-                headers: {
-                }
             });
             let parseData = await data.json();
 
@@ -378,8 +372,6 @@ export const getOrderList = (order_id) => {
         try {
             let data = await fetch(url, {
                 method: "GET",
-                headers: {
-                }
             });
             let parseData = await data.json();
 
@@ -390,6 +382,50 @@ export const getOrderList = (order_id) => {
         } catch (error) {
             dispatch({
                 type: GET_ORDER_DATA_FAILURE,
+                payload: {
+                    error,
+                },
+            });
+        }
+
+    };
+};
+
+
+export const applyCoupon = (code) => {
+    return async (dispatch) => {
+
+        dispatch({
+            type: POST_APPLY_COUPON_REQUEST,
+        });
+
+        const API_URL = 'https://192.168.1.12/search/wp-json/wc/store/v1';
+        const CONSUMER_KEY = 'ck_c62b10d9d26ea29df0c85a1f61d1b9190212bcee';
+        const CONSUMER_SECRET = 'cs_c73819658d4f330f709878668e343076ac627d9a';
+
+        const url = `${API_URL}/cart/apply-coupon`;
+
+        try {
+            let data = await fetch(url, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    code: code,
+                    consumer_key: CONSUMER_KEY,
+                    consumer_secret: CONSUMER_SECRET
+                })
+            });
+            let parseData = await data.json();
+
+            dispatch({
+                type: POST_APPLY_COUPON_SUCCESS,
+                payload: parseData,
+            });
+        } catch (error) {
+            dispatch({
+                type: POST_APPLY_COUPON_FAILURE,
                 payload: {
                     error,
                 },

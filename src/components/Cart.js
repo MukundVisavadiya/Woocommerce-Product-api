@@ -6,18 +6,46 @@ import CartItem from './CartItem';
 import Spinner from './Spinner';
 import emptyCart from './emptyCart.svg'
 import { Link } from 'react-router-dom';
+import { applyCoupon } from '../state/action/Product';
 
-function Cart(props) {
+function Cart() {
 
     const dispatch = useDispatch();
+    const [showCoupon, setShowCoupon] = useState(false);
+    const [code, setCode] = useState();
     const apiData = useSelector((state) => state.cart);
     const cartData = apiData.Item.items;
+    // console.log(apiData.Item.coupons[0].totals.total_discount);
+
+    const applyCouponapiresponse = useSelector((state) => state.applyCoupon);
+    console.log('applyCouponDetail', applyCouponapiresponse)
 
     useEffect(() => {
         dispatch(
             fetchCart()
         );
     }, []);
+
+    const couponCode = () => {
+        if (showCoupon === false) {
+            setShowCoupon(true);
+        }
+        else {
+            setShowCoupon(false);
+        }
+    }
+
+    const handleCode = (e) => {
+        let code_value = e.target.value;
+        setCode(code_value);
+    }
+
+    const onSubmit = (e) => {
+        e.preventDefault()
+        dispatch(
+            applyCoupon(code)
+        )
+    }
 
     if (cartData && cartData.length === 0) {
         return (
@@ -81,7 +109,16 @@ function Cart(props) {
                             <div className='col-12 col-md-6'>
                                 <p className="card-text d-flex justify-content-end mt-5" style={{ paddingRight: '10px', marginBottom: '0px' }}>CART TOTALS</p>
                                 <div className='border-top border-bottom border-dark'>
-                                    <button className='add-coupon'>Add a coupon</button>
+                                    <button className='add-coupon' onClick={couponCode}>Add a coupon</button>
+                                    {
+                                        showCoupon &&
+                                        <form onSubmit={onSubmit}>
+                                            <div className="input-group input-group my-3">
+                                                <input type="text" className="form-control" name='coupon_code' value={code} onChange={handleCode} />
+                                                <button type='submit' className='btn btn-primary'>Apply</button>
+                                            </div>
+                                        </form>
+                                    }
                                 </div>
                                 <div className='border-bottom border-dark section-cart'>
                                     <h6 style={{ padding: '10px 0px 4px 18px' }}>SUB TOTAL</h6>
@@ -95,6 +132,15 @@ function Cart(props) {
                                     <h6 style={{ padding: '10px 0px 4px 18px' }}>FREE SHIPPING</h6>
                                     <h5 style={{ padding: '10px 18px 4px 0px' }}>₹ 0.0</h5>
                                 </div>
+                                {/* {apiData.Item.coupons &&
+                                    <>
+                                        <div className='border-bottom border-dark section-cart'>
+                                            <h6 style={{ padding: '10px 0px 4px 18px' }}>Discount</h6>
+                                            <h5 style={{ padding: '10px 18px 4px 0px', color: 'green' }}>- ₹ {apiData.Item && apiData.Item.coupons && (apiData.Item.coupons[0].totals.total_discount / 100).toFixed(2)}</h5>
+                                        </div>
+                                    </>
+
+                                } */}
                                 <div className='section-cart'>
                                     <h6 style={{ padding: '10px 0px 4px 18px' }}>TOTAL</h6>
                                     <h5 style={{ padding: '10px 18px 4px 0px' }}>₹ {apiData.Item && apiData.Item.totals && (apiData.Item.totals.total_price / 100).toFixed(2)}</h5>

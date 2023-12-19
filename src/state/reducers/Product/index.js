@@ -8,6 +8,7 @@ import updateQuantityReducer from "./updateQuantityReducer";
 import getCheckoutReducer from "./getCheckoutReducer";
 import placeOrderReducer from "./placeOrderReducer";
 import orderDataReducer from "./orderDataReducer";
+import applyCouponReducer from "./applyCouponReducer";
 
 const rootReducer = combineReducers({
     product: productReducer,
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
     updateQuantity: updateQuantityReducer,
     getCheckout: getCheckoutReducer,
     placeOrder: placeOrderReducer,
-    orderData: orderDataReducer
+    orderData: orderDataReducer,
+    applyCoupon: applyCouponReducer,
 });
 
 export default rootReducer;
